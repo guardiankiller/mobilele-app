@@ -2,8 +2,8 @@ package com.softuni.mobilele.service.impl;
 
 import com.softuni.mobilele.model.AddOfferDTO;
 import com.softuni.mobilele.model.OfferDetailsDTO;
-import com.softuni.mobilele.model.entity.OfferEntity;
 import com.softuni.mobilele.repository.OfferRepository;
+import com.softuni.mobilele.model.entity.OfferEntity;
 import com.softuni.mobilele.service.OfferService;
 import org.springframework.stereotype.Service;
 
