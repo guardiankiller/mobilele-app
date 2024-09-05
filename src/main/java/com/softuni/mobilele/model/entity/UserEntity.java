@@ -1,6 +1,14 @@
 package com.softuni.mobilele.model.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UuidGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import static org.hibernate.type.SqlTypes.VARCHAR;
 
 @Entity
 @Table(name = "users")
@@ -8,12 +16,26 @@ public class UserEntity extends BaseEntity{
 
     @Column(unique = true)
     private String email;
+    @UuidGenerator
+    //@UUIDSequence <-- applicable for all kind of identifiers
+    @JdbcTypeCode(VARCHAR)
+    private UUID uuid;
 
     private String password;
 
     private String firstName;
 
     private String lastName;
+
+    @ManyToMany(
+            fetch = FetchType.EAGER
+    )
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<UserRoleEntity> roles = new ArrayList<>();
 
     public String getEmail() {
         return email;
@@ -49,5 +71,34 @@ public class UserEntity extends BaseEntity{
     public UserEntity setLastName(String lastName) {
         this.lastName = lastName;
         return this;
+    }
+
+    public List<UserRoleEntity> getRoles() {
+        return roles;
+    }
+
+    public UserEntity setRoles(List<UserRoleEntity> roles) {
+        this.roles = roles;
+        return this;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public UserEntity setUuid(UUID uuid) {
+        this.uuid = uuid;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", roles=" + roles +
+                '}';
     }
 }
